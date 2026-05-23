@@ -22,7 +22,7 @@ export default function Taskbar() {
         { id: 'focus', name: 'Focus', icon: Clock, color: { light: '#c53030', dark: '#fc8181' } },
         { id: 'calculator', name: 'Calc', icon: Calculator, color: { light: '#b7791f', dark: '#f6e05e' } },
         { id: 'system', name: 'System', icon: Activity, color: { light: '#97266d', dark: '#d53f8c' } },
-        { id: 'quicklinks', name: 'Links', icon: ExternalLink, color: { light: '#4a5568', dark: '#a0a0b0' } },
+        { id: 'settings', name: 'Settings', icon: Settings, color: { light: '#4b5563', dark: '#9ca3af' } },
         { id: 'quicklinks', name: 'Links', icon: ExternalLink, color: { light: '#4a5568', dark: '#a0a0b0' } },
         { id: 'vm', name: 'VM', icon: Terminal, color: { light: '#000000', dark: '#ffffff' } },
         { id: 'app-launcher', name: 'Apps', icon: LayoutGrid, color: { light: '#4a5568', dark: '#f0f0f0' } },
@@ -49,7 +49,6 @@ export default function Taskbar() {
                 case 'focus': Content = require('./Focus').default; break;
                 case 'quicklinks': Content = require('./QuickLinks').default; break;
                 case 'browser': Content = require('./Browser').default; break;
-                case 'calculator': Content = require('./Calculator').default; break;
                 case 'calculator': Content = require('./Calculator').default; break;
                 case 'system': Content = require('./SystemMonitor').default; break;
                 case 'vm': Content = require('./VirtualMachine').default; break;
