@@ -1,27 +1,50 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Midnight (Deep Glass) Theme */
+  --background: #0f111a;
+  --surface: rgba(30, 33, 43, 0.6);
+  --surface-highlight: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.08);
+
+  --text-primary: #ededed;
+  --text-secondary: #9494a0;
+
+  --accent: #89b4fa;
+  --accent-glow: rgba(137, 180, 250, 0.25);
+
+  --glass-bg: rgba(15, 17, 26, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+  --font-geist-sans: "Geist", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+[data-theme='light'] {
+  /* Solarized Light Theme */
+  --background: #fdf6e3;
+  /* Base3 */
+  --surface: rgba(238, 232, 213, 0.75);
+  /* Base2 */
+  --surface-highlight: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.05);
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  --text-primary: #073642;
+  /* Base02 */
+  --text-secondary: #586e75;
+  /* Base01 */
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --accent: #2aa198;
+  /* Cyan */
+  --accent-glow: rgba(42, 161, 152, 0.2);
+
+  --glass-bg: rgba(253, 246, 227, 0.6);
+  /* Base3 with opacity */
+  --glass-border: rgba(255, 255, 255, 0.4);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -30,13 +53,39 @@ body {
   margin: 0;
 }
 
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Enhanced Glassmorphism */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.desktop-background {
+  transition: background 1s ease;
+  background: radial-gradient(circle at 50% 120%, #2a2d3d 0%, #0f111a 60%);
+  background-size: cover;
+  background-position: center;
+}
+
+[data-theme='light'] .desktop-background {
+  /* Solarized Day Gradient */
+  background: linear-gradient(180deg, #87ceeb 0%, #fdf6e3 100%);
+}
+
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }

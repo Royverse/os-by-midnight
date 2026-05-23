@@ -1,0 +1,3 @@
+[build]
+  command = "echo 'Deploying static pre-built assets'"
+  publish = "out"
