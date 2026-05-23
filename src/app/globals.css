@@ -14,8 +14,18 @@
   --glass-bg: rgba(15, 17, 26, 0.6);
   --glass-border: rgba(255, 255, 255, 0.08);
 
+  /* Smart Stacking Active/Inactive surface tokens */
+  --surface-active: rgba(18, 20, 29, 0.94);
+  --surface-inactive: rgba(24, 27, 38, 0.55);
+  --glass-blur-active: 14px;
+  --glass-blur-inactive: 28px;
+  --glass-opacity-active: 1;
+  --glass-opacity-inactive: 0.85;
+
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --shadow-active: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(137, 180, 250, 0.15);
+  --shadow-inactive: 0 8px 24px rgba(0, 0, 0, 0.25);
 
   --font-geist-sans: "Geist", sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
@@ -41,10 +51,20 @@
 
   --glass-bg: rgba(253, 246, 227, 0.6);
   /* Base3 with opacity */
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(0, 0, 0, 0.06);
+
+  /* Smart Stacking Active/Inactive surface tokens for Light Mode */
+  --surface-active: rgba(253, 246, 227, 0.97);
+  --surface-inactive: rgba(238, 232, 213, 0.65);
+  --glass-blur-active: 10px;
+  --glass-blur-inactive: 24px;
+  --glass-opacity-active: 1;
+  --glass-opacity-inactive: 0.9;
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-active: 0 20px 48px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(42, 161, 152, 0.1);
+  --shadow-inactive: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 * {

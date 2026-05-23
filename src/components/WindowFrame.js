@@ -10,6 +10,7 @@ export default function WindowFrame({ window: win }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const [isControlsHovered, setIsControlsHovered] = useState(false);
     const windowRef = useRef(null);
 
     const isActive = activeWindowId === win.id;
@@ -45,8 +46,6 @@ export default function WindowFrame({ window: win }) {
                 updateWindowPosition(win.id, { x: newX, y: newY });
             }
             if (isResizing) {
-                // Resize from bottom-right simple implementation
-                // New Dimension = Mouse Position - Window Position
                 const newWidth = Math.max(300, e.clientX - win.position.x);
                 const newHeight = Math.max(200, e.clientY - win.position.y);
                 updateWindowSize(win.id, { width: newWidth, height: newHeight });
@@ -70,6 +69,33 @@ export default function WindowFrame({ window: win }) {
 
     if (win.minimized) return null;
 
+    const getControlStyle = (type) => {
+        let activeBg;
+        switch (type) {
+            case 'close': activeBg = '#ff5f57'; break;
+            case 'minimize': activeBg = '#febc2e'; break;
+            case 'maximize': activeBg = '#27c93f'; break;
+        }
+
+        const isLit = isActive || isControlsHovered;
+        const bg = isLit ? activeBg : 'rgba(255, 255, 255, 0.12)';
+
+        return {
+            width: '12px',
+            height: '12px',
+            borderRadius: '50%',
+            backgroundColor: bg,
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+            transition: 'all 0.2s ease',
+            color: 'rgba(0, 0, 0, 0.65)',
+        };
+    };
+
     return (
         <motion.div
             ref={windowRef}
@@ -84,23 +110,24 @@ export default function WindowFrame({ window: win }) {
                 left: win.position.x,
                 width: width,
                 height: height,
-                backgroundColor: 'var(--surface)',
+                backgroundColor: isActive ? 'var(--surface-active)' : 'var(--surface-inactive)',
+                backdropFilter: `blur(${isActive ? 'var(--glass-blur-active)' : 'var(--glass-blur-inactive)'}) saturate(140%)`,
+                WebkitBackdropFilter: `blur(${isActive ? 'var(--glass-blur-active)' : 'var(--glass-blur-inactive)'}) saturate(140%)`,
+                opacity: isActive ? 'var(--glass-opacity-active)' : 'var(--glass-opacity-inactive)',
                 border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: '8px',
-                boxShadow: isActive ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
+                borderRadius: '12px',
+                boxShadow: isActive ? 'var(--shadow-active)' : 'var(--shadow-inactive)',
                 display: 'flex',
                 flexDirection: 'column',
                 zIndex: isActive ? 100 : 10,
                 overflow: 'hidden',
-                // Removed transition for box-shadow/border here to let motion handle generic anims, 
-                // but kept manual drag for position perf.
+                transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
             }}
-            className="glass"
         >
             {/* Title Bar */}
             <div style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: 'var(--surface-highlight)',
+                padding: '0.6rem 1.2rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
                 borderBottom: '1px solid var(--border)',
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -108,26 +135,53 @@ export default function WindowFrame({ window: win }) {
                 userSelect: 'none',
                 cursor: isDragging ? 'grabbing' : 'grab',
                 flexShrink: 0,
+                transition: 'opacity 0.2s ease',
+                opacity: isActive ? 1 : 0.7
             }}>
-                <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>{win.title}</span>
-                <div className="window-controls" style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); minimizeWindow(win.id); }}
-                        style={controlBtnStyle}
-                    >
-                        <Minus size={14} />
-                    </button>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); }}
-                        style={controlBtnStyle}
-                    >
-                        <Square size={14} />
-                    </button>
+                <span style={{ 
+                    fontSize: '0.85rem', 
+                    fontWeight: 500,
+                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    transition: 'color 0.2s ease'
+                }}>{win.title}</span>
+
+                <div 
+                    className="window-controls" 
+                    style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+                    onMouseEnter={() => setIsControlsHovered(true)}
+                    onMouseLeave={() => setIsControlsHovered(false)}
+                >
+                    {/* Close button (macOS red) */}
                     <button
                         onClick={(e) => { e.stopPropagation(); closeWindow(win.id); }}
-                        style={{ ...controlBtnStyle, ':hover': { backgroundColor: '#ff5f57' } }}
+                        style={getControlStyle('close')}
                     >
-                        <X size={14} />
+                        <X size={7} strokeWidth={4} style={{ 
+                            opacity: isControlsHovered ? 1 : 0, 
+                            transition: 'opacity 0.15s ease' 
+                        }} />
+                    </button>
+
+                    {/* Minimize button (macOS yellow) */}
+                    <button
+                        onClick={(e) => { e.stopPropagation(); minimizeWindow(win.id); }}
+                        style={getControlStyle('minimize')}
+                    >
+                        <Minus size={7} strokeWidth={4} style={{ 
+                            opacity: isControlsHovered ? 1 : 0, 
+                            transition: 'opacity 0.15s ease' 
+                        }} />
+                    </button>
+
+                    {/* Maximize button (macOS green) */}
+                    <button
+                        onClick={(e) => { e.stopPropagation(); }}
+                        style={getControlStyle('maximize')}
+                    >
+                        <Square size={5} strokeWidth={4} style={{ 
+                            opacity: isControlsHovered ? 1 : 0, 
+                            transition: 'opacity 0.15s ease' 
+                        }} />
                     </button>
                 </div>
             </div>
@@ -168,15 +222,3 @@ export default function WindowFrame({ window: win }) {
         </motion.div>
     );
 }
-
-const controlBtnStyle = {
-    background: 'transparent',
-    border: 'none',
-    color: 'var(--text-secondary)',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '2px',
-    borderRadius: '4px',
-};
