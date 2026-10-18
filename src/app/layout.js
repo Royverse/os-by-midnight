@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Midnight OS Demo",
   description: "A genuinely useful daily web OS for everyone.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
