@@ -65,7 +65,7 @@ export default function Taskbar() {
     };
 
     return (
-        <div style={{
+        <nav aria-label="Desktop Taskbar" style={{
             position: 'absolute',
             bottom: '16px',
             left: '50%',
@@ -148,6 +148,6 @@ export default function Taskbar() {
             }}>
                 {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
-        </div>
+        </nav>
     );
 }

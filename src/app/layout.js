@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <a href="#desktop-stage" className="skip-link">Skip to desktop</a>
         <ThemeProvider>
           <WindowManagerProvider>
             {children}

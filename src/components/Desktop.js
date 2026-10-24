@@ -123,7 +123,7 @@ const DesktopContent = () => {
     const { windows } = useWindowManager();
 
     return (
-        <div style={{
+        <main id="desktop-stage" style={{
             position: 'relative',
             width: '100vw',
             height: '100vh',
@@ -151,7 +151,7 @@ const DesktopContent = () => {
 
             {/* Taskbar Layer */}
             <Taskbar />
-        </div>
+        </main>
     );
 };
 
