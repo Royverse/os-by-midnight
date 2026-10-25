@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { WindowManagerProvider } from "../context/WindowManager";
 import { ThemeProvider } from "../context/ThemeContext";
+import AppPreloader from "../components/AppPreloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <AppPreloader />
         <a href="#desktop-stage" className="skip-link">Skip to desktop</a>
         <ThemeProvider>
           <WindowManagerProvider>
